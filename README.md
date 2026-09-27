@@ -56,28 +56,167 @@ networks you own or have explicit permission to test.
 python3 -m unittest discover -s tests -v
 ```
 
-## Build and install on Linux
+## Install on Linux
 
-From this directory, build and install the standalone app and application-menu
-shortcut with:
+These steps build the app from source and install it for your Linux user. You
+do not need administrator access for the app installation itself.
+
+### 1. Install system prerequisites
+
+On Debian or Ubuntu:
+
+```bash
+sudo apt update
+sudo apt install git python3 python3-venv python3-tk
+```
+
+For Wi-Fi scanning and ping diagnostics, also install the corresponding
+system utilities if they are not already present:
+
+```bash
+sudo apt install network-manager iputils-ping traceroute
+```
+
+On Fedora, the corresponding packages are typically `git python3
+python3-tkinter NetworkManager iputils traceroute`. Package names can differ
+between distributions.
+
+### 2. Download the project
+
+Open a terminal and clone the repository:
+
+```bash
+git clone https://github.com/aimoniotis/Andromeda-NetKit.git
+cd Andromeda-NetKit
+```
+
+### 3. Build and install
+
+Run the installer from the project directory:
 
 ```bash
 bash install_linux.sh
 ```
 
-The build creates an isolated `.venv`, quietly installs the requirements from
-`requirements-build.txt` (runtime packages plus PyInstaller), and bundles the
-Python libraries into `dist/AndromedaNetKit`. Users launching the packaged
-app do not need Python or pip installed. Tkinter and system tools such as
-`nmcli`/`iwlist` and `ping` are OS-provided, not Python packages.
+The script creates a project-local `.venv`, installs the Python build
+requirements from `requirements-build.txt`, builds the standalone app, and
+installs it under `~/.local/opt/andromeda-netkit`. It also adds an application
+menu entry and icon under `~/.local/share`. The first build needs an internet
+connection and may take several minutes. Do not run the installer with `sudo`.
 
-## Build a Windows executable
+### 4. Launch
 
-On Windows, install Python 3 with Tcl/Tk support. Run `install_windows.bat` to
-quietly install build dependencies, create the standalone executable, copy it
-to your user Programs folder, and add a Start-menu shortcut. Alternatively,
-run `build_windows.bat` to only create `dist\AndromedaNetKit.exe`. The
-generated `.ico` file is embedded in the executable.
+Open **⚡ Andromeda NetKit** from your desktop’s application menu. To launch
+from a terminal instead:
+
+```bash
+~/.local/opt/andromeda-netkit/AndromedaNetKit
+```
+
+### Update or uninstall on Linux
+
+To update a source checkout, enter its directory, pull the latest version, and
+rerun the installer:
+
+```bash
+cd Andromeda-NetKit
+git pull
+bash install_linux.sh
+```
+
+To uninstall, remove the app and its menu/icon files for your user:
+
+```bash
+rm -r ~/.local/opt/andromeda-netkit
+rm -f ~/.local/share/applications/andromeda-netkit.desktop
+rm -f ~/.local/share/icons/hicolor/256x256/apps/andromeda-netkit.png
+```
+
+## Install on Windows
+
+These steps build a Windows executable and add a Start-menu shortcut.
+
+### 1. Install prerequisites
+
+Install:
+
+- **Git for Windows** from [git-scm.com](https://git-scm.com/download/win).
+- **Python 3** from [python.org](https://www.python.org/downloads/windows/).
+  In the installer, enable the Python launcher and Tcl/Tk support. Enabling
+  **Add Python to PATH** is recommended.
+
+After installation, open PowerShell and confirm Python is available:
+
+```powershell
+py -3 --version
+```
+
+### 2. Download the project
+
+In PowerShell, clone the repository and enter its folder:
+
+```powershell
+cd $HOME\Documents
+git clone https://github.com/aimoniotis/Andromeda-NetKit.git
+cd .\Andromeda-NetKit
+```
+
+You can use another folder instead of `Documents`; keep the terminal in the
+project directory for the next step.
+
+### 3. Build and install
+
+Run the installer:
+
+```powershell
+.\install_windows.bat
+```
+
+The script creates a project-local `.venv`, installs build requirements,
+creates `dist\AndromedaNetKit.exe`, copies the executable to
+`%LOCALAPPDATA%\Programs\AndromedaNetKit`, and creates a Start-menu shortcut.
+The first build needs an internet connection and may take several minutes.
+If Windows asks for confirmation to run the batch file, verify that it came
+from this repository before allowing it.
+
+### 4. Launch
+
+Open **Andromeda NetKit** from the Windows Start menu. To build the executable
+without installing the Start-menu shortcut, run:
+
+```powershell
+.\build_windows.bat
+```
+
+The resulting executable is `dist\AndromedaNetKit.exe`.
+
+### Update or uninstall on Windows
+
+To update a source checkout, open PowerShell in its project folder and run:
+
+```powershell
+git pull
+.\install_windows.bat
+```
+
+To uninstall, remove **Andromeda NetKit** from the Start menu if desired, then
+delete `%LOCALAPPDATA%\Programs\AndromedaNetKit`. The project checkout and its
+`.venv` are separate and can be kept for later builds or removed independently.
+
+## Troubleshooting
+
+- **Linux reports that Tkinter is missing:** install your distribution’s
+  Tkinter package (for example, `sudo apt install python3-tk`) and rerun the
+  installer.
+- **The Linux installer cannot create `.venv`:** install `python3-venv` for
+  the Python version used by `python3`.
+- **Windows says Tkinter is unavailable:** rerun the Python installer and
+  ensure Tcl/Tk support is installed, then retry `.\install_windows.bat`.
+- **A Wi-Fi scan returns an error or no networks:** results depend on the
+  wireless adapter, operating-system utilities, permissions, and whether
+  Wi-Fi is enabled.
+- **A diagnostic tool is unavailable:** bundled Python packages do not include
+  operating-system utilities such as Linux `ping`, `traceroute`, or `nmcli`.
 
 PyInstaller builds for the operating system on which it runs. Build the Windows
 `.exe` on Windows and the Linux executable on Linux; the Linux executable is
