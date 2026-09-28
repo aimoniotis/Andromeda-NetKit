@@ -683,7 +683,10 @@ class NetworkDiagnosticsApp:
     def _schedule_provider_lookup(self):
         if (
             self._provider_lookup_running
-            or time.monotonic() - self._provider_last_checked < 900
+            or (
+                self._provider_last_checked
+                and time.monotonic() - self._provider_last_checked < 900
+            )
         ):
             return
         self._provider_lookup_running = True

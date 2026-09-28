@@ -1,4 +1,36 @@
+![Andromeda NetKit desktop app](assets/andromeda-netkit-screenshot.png)
+
 # ⚡ Andromeda NetKit
+
+Andromeda NetKit is a desktop network diagnostics toolkit for Windows, Linux,
+and macOS.
+
+## Features
+
+- **Basic DNS Lookup** — resolve a hostname to its IPv4 address.
+- **Advanced DNS Records** — query common records such as A, AAAA, MX, NS,
+  and TXT.
+- **Ping Test** — check whether a host responds.
+- **Web Security Check** — see whether a website redirects from HTTP to HTTPS.
+- **Traceroute** — inspect the route to a destination, where supported.
+- **Local Subnet Scan** — find responding hosts on a `/24` network.
+- **Full-Port TCP/UDP Scanner** — probe ports 1–65535 and report their status.
+- **Wi-Fi Analyzer** — list nearby wireless networks using operating-system
+  tools.
+- **Internet Speed & Quality** — measure download/upload speed, latency,
+  jitter, and packet loss.
+- **WHOIS Lookup** — retrieve domain registration information.
+- **My Host Information** — view local network interfaces and addresses,
+  subnet prefixes, gateways, DNS, proxy settings, Wi-Fi details, and public
+  IPv4/IPv6 addresses.
+- **Connection status and ISP display** — periodically check internet
+  availability and identify the provider.
+- **App conveniences** — switch between light and dark themes, view About and
+  Privacy information, open GitHub/support and the feature list, or donate.
+
+Network-dependent features require internet access or the relevant
+operating-system tools. Only scan systems and networks you are authorized to
+test.
 
 ## Run from source
 
